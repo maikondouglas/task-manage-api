@@ -32,10 +32,10 @@ group :development, :test do
 end
 
 group :test do 
-  gem 'database_cleaner'
+  gem 'database_cleaner-active_record'
   gem 'shoulda-matchers', '~> 3.1'
-  gem 'factory_girl_rails'
   gem 'faker'
+  gem 'factory_girl_rails'
 end
 
 group :development do

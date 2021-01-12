@@ -83,7 +83,7 @@ RSpec.describe 'Task API' do
     end
   end
 
-  describe 'PU /tasks/:id' do
+  describe 'PUT /tasks/:id' do
     let!(:task) { create(:task, user_id: user.id) }
     before do
       put "/tasks/#{task.id}", params: { task: task_params }.to_json, headers: headers
@@ -119,6 +119,22 @@ RSpec.describe 'Task API' do
       it 'does not update the task in the database' do
         expect(Task.find_by(title: task_params[:title])).to be_nil
       end
+    end
+  end
+
+  describe 'DELETE /tasks/:id' do
+    let!(:task) { create(:task, user_id: user.id) }
+
+    before do
+      delete "/tasks/#{task.id}", params: {}, headers: headers
+    end
+
+    it 'returns status code 204' do
+      expect(response).to have_http_status(204) 
+    end
+
+    it 'removes the task from the database' do
+      expect { Task.find(task.id) }.to raise_error(ActiveRecord::RecordNotFound) 
     end
   end
 end

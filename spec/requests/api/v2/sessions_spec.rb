@@ -24,7 +24,7 @@ RSpec.describe 'Sessions API', type: :request do
 
       it 'returns the json data for the user with auth token' do
         user.reload
-        expect(json_body[:auth_token]).to eq(user.auth_token)
+        expect(json_body[:data][:attributes][:'auth-token']).to eq(user.auth_token)
       end
     end
 
@@ -47,13 +47,13 @@ RSpec.describe 'Sessions API', type: :request do
     before do
       delete "/sessions/#{auth_token}", params: {}, headers: headers
     end
-    
+
     it 'returns status code 204' do
-      expect(response).to have_http_status(204)  
+      expect(response).to have_http_status(204)
     end
 
     it 'changes the user auth token' do
-      expect(User.find_by(auth_token: auth_token)).to be_nil  
+      expect(User.find_by(auth_token: auth_token)).to be_nil
     end
   end
 end
